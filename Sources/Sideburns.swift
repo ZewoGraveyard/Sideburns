@@ -29,12 +29,12 @@ import Mustache
 
 public typealias TemplateData = MustacheBoxable
 
-enum SideburnsError: ErrorType {
+public enum SideburnsError: ErrorType {
 	case UnsupportedTemplateEncoding	
 }
 
 extension Response {
-    init(status: Status,
+    public init(status: Status,
         headers: [String: String] = [:],
         templatePath: String,
         templateData: TemplateData) throws {
