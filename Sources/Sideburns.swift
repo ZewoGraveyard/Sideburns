@@ -23,38 +23,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Core
-import HTTP
-import Mustache
+@_exported import File
+@_exported import HTTP
+@_exported import Mustache
 
 public typealias TemplateData = MustacheBoxable
 
 public enum SideburnsError: ErrorType {
-	case UnsupportedTemplateEncoding	
+	case UnsupportedTemplateEncoding
 }
 
 extension Response {
-    public init(status: Status,
-        headers: [String: String] = [:],
-        templatePath: String,
-        templateData: TemplateData) throws {
-            let templateFile = try File(path: templatePath, mode: .Read)
-            
-            guard let templateString = try templateFile.read().string else {
-            	throw SideburnsError.UnsupportedTemplateEncoding
-            }
+    public init(status: Status = .OK, headers: Headers = [:], templatePath: String, templateData: TemplateData) throws {
+        let templateFile = try File(path: templatePath, mode: .Read)
 
-            let template = try Template(string: templateString)
-            let rendering = try template.render(Box(boxable: templateData))
+        guard let templateString = try? String(data: templateFile.read()) else {
+        	throw SideburnsError.UnsupportedTemplateEncoding
+        }
 
-            var headers = headers
-            headers["content-type"] = "text/html"
+        let template = try Template(string: templateString)
+        let rendering = try template.render(Box(boxable: templateData))
 
-            self.init(
-                status: status,
-                headers: headers,
-                body: Data(string: rendering).bytes
-            )
+        self.init(status: status, headers: headers, body: rendering)
+
+        if let fileExtension = templateFile.fileExtension, mediaType = mediaTypeForFileExtension(fileExtension) {
+            self.contentType = mediaType
+        }
     }
-    
 }
