@@ -29,7 +29,7 @@
 
 public typealias TemplateData = MustacheBoxable
 
-public enum SideburnsError: ErrorType {
+public enum SideburnsError: ErrorProtocol {
 	case UnsupportedTemplateEncoding
 }
 
