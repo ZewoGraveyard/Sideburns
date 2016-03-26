@@ -30,15 +30,15 @@
 public typealias TemplateData = MustacheBoxable
 
 public enum SideburnsError: ErrorProtocol {
-	case UnsupportedTemplateEncoding
+	case unsupportedTemplateEncoding
 }
 
 extension Response {
-    public init(status: Status = .OK, headers: Headers = [:], templatePath: String, templateData: TemplateData) throws {
-        let templateFile = try File(path: templatePath, mode: .Read)
+    public init(status: Status = .ok, headers: Headers = [:], templatePath: String, templateData: TemplateData) throws {
+        let templateFile = try File(path: templatePath, mode: .read)
 
         guard let templateString = try? String(data: templateFile.read()) else {
-        	throw SideburnsError.UnsupportedTemplateEncoding
+            throw SideburnsError.unsupportedTemplateEncoding
         }
 
         let template = try Template(string: templateString)
