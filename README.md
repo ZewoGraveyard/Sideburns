@@ -8,6 +8,16 @@ Sideburns
 
 **Sideburns** is a mustache template responder for swift 2.2.
 
+## Usage
+
+```swift
+let templateData: TemplateData = [
+    "foo": "bar"
+]
+
+let response = Response(templatePath: "index.html", templateData: templateData)
+```
+
 ## Installation
 
 - Add `Sideburns` to your `Package.swift`
