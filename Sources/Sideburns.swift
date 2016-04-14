@@ -42,11 +42,11 @@ extension Response {
         }
 
         let template = try Template(string: templateString)
-        let rendering = try template.render(Box(boxable: templateData))
+        let rendering = try template.render(box: Box(boxable: templateData))
 
         self.init(status: status, headers: headers, body: rendering)
 
-        if let fileExtension = templateFile.fileExtension, mediaType = mediaTypeForFileExtension(fileExtension) {
+        if let fileExtension = templateFile.fileExtension, mediaType = mediaType(forFileExtension: fileExtension) {
             self.contentType = mediaType
         }
     }
