@@ -37,7 +37,7 @@ extension Response {
     public init(status: Status = .ok, headers: Headers = [:], templatePath: String, templateData: TemplateData) throws {
         let templateFile = try File(path: templatePath, mode: .read)
 
-        guard let templateString = try? String(data: templateFile.read()) else {
+        guard let templateString = try? String(data: templateFile.readAll()) else {
             throw SideburnsError.unsupportedTemplateEncoding
         }
 
