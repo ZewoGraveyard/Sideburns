@@ -8,7 +8,7 @@ class SideburnsTests: XCTestCase {
 }
 
 extension SideburnsTests {
-    static var allTests : [(String, SideburnsTests -> () throws -> Void)] {
+    static var allTests: [(String, SideburnsTests -> () throws -> Void)] {
         return [
            ("testReality", testReality),
         ]
